@@ -24,8 +24,8 @@ func main() {
 	log.Info("I am a log message")
 
 	txn := app.StartTransaction("example transaction")
-	txnLogger := nrslog.WithTransaction(txn, log)
-	txnLogger.Info("I am a log inside a transaction")
+	txnCtx := newrelic.NewContext(context.Background(), txn)
+	txnLogger.InfoContext(txnCtx, "I am a log inside a transaction")
 
 	// pretend to do some work
 	time.Sleep(500 * time.Millisecond)
